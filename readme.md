@@ -16,3 +16,9 @@ http://localhost/ngender.php?name=赵本山
 http://localhost/ngender.php?name=宋丹丹
 {"result": ["female", 0.97594861289499]}
 ```
+
+## About
+
+### BiliBili
+
+https://space.bilibili.com/15858903
