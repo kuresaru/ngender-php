@@ -3,6 +3,10 @@
 if (!isset($_GET['name'])) {
     die('没有指定name参数');
 }
+$keepFirst = false;
+if (isset($_GET['keepFirst']) && $_GET['keepFirst'] == "true") {
+    $keepFirst = true;
+}
 //取名字
 $name = $_GET['name'];
 //打开文件
@@ -56,7 +60,7 @@ function probForGender($firstname, $gender) {
 
 //开始计算
 $firstname = '';
-$firstFlag = true;
+$firstFlag = !$keepFirst;
 //遍历汉字字符串
 preg_match_all('/[\x{4e00}-\x{9fa5}]/u', $name, $chinese);
 preg_match_all('/[^\x{4e00}-\x{9fa5}]/u', $name, $string);
@@ -75,8 +79,22 @@ foreach ($result as $word) {
 $pFemale = probForGender($firstname, 0);
 $pMale = probForGender($firstname, 1);
 if ($pMale > $pFemale) {
-    echo '{"result": ["male", ' . (1.0 * $pMale / ($pMale + $pFemale)) . "]}";
+    echo 
+'{
+    "result": [
+        "male", 
+        ' . (1.0 * $pMale / ($pMale + $pFemale)) . '
+    ], 
+    "keepFirst": ' . ($keepFirst ? "true" : "false") . '
+}';
 } else {
-    echo '{"result": ["female", ' . (1.0 * $pFemale / ($pMale + $pFemale)) . "]}";
+    echo 
+'{
+    "result": [
+        "female", 
+        ' . (1.0 * $pFemale / ($pMale + $pFemale)) . '
+    ], 
+    "keepFirst": ' . ($keepFirst ? "true" : "false") . '
+}';
 }
 ?>
