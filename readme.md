@@ -13,10 +13,13 @@
 
 ```
 http://localhost/ngender.php?name=赵本山
-{"result": ["male", 0.9836229687547], "keepFirst": false}
+{"result": ["male", 0.9836229687547], "keepFirst": false, "actualName": "赵本山"}
 
 http://localhost/ngender.php?name=宋丹丹
-{"result": ["female", 0.97594861289499], "keepFirst": false}
+{"result": ["female", 0.97594861289499], "keepFirst": false, "actualName": "宋丹丹"}
+
+http://[::1]/ngender.php?name=暮光小猿wzt&keepFirst=true
+{"result": ["male", 0.88108764477142], "keepFirst": true, "actualName": "暮光小猿"}
 ```
 
 ## About

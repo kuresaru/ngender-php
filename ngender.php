@@ -60,6 +60,7 @@ function probForGender($firstname, $gender) {
 
 //开始计算
 $firstname = '';
+$actualname = '';
 $firstFlag = !$keepFirst;
 //遍历汉字字符串
 preg_match_all('/[\x{4e00}-\x{9fa5}]/u', $name, $chinese);
@@ -68,12 +69,13 @@ $result = array_merge(current($chinese), current($string));
 foreach ($result as $word) {
     //直接忽略非汉字字符
     if (preg_match('/^[\x{4e00}-\x{9fa5}]$/u', $word)) {
+        $actualname = $actualname . $word;
         //去掉第一个字
         if ($firstFlag) {
             $firstFlag = false;
-            continue;
+        } else {
+            $firstname = $firstname . $word;
         }
-        $firstname = $firstname . $word;
     }
 }
 $pFemale = probForGender($firstname, 0);
@@ -85,7 +87,8 @@ if ($pMale > $pFemale) {
         "male", 
         ' . (1.0 * $pMale / ($pMale + $pFemale)) . '
     ], 
-    "keepFirst": ' . ($keepFirst ? "true" : "false") . '
+    "keepFirst": ' . ($keepFirst ? "true" : "false") . ',
+    "actualName": "' . $actualname . '"
 }';
 } else {
     echo 
@@ -94,7 +97,8 @@ if ($pMale > $pFemale) {
         "female", 
         ' . (1.0 * $pFemale / ($pMale + $pFemale)) . '
     ], 
-    "keepFirst": ' . ($keepFirst ? "true" : "false") . '
+    "keepFirst": ' . ($keepFirst ? "true" : "false") . ',
+    "actualName": "' . $actualname . '"
 }';
 }
 ?>
